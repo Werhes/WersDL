@@ -1,0 +1,93 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>YT_DLP_GUI</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyTitle>WersDL</AssemblyTitle>
+    <AssemblyName>WersDL</AssemblyName>
+    <Version>1.0.0</Version>
+    <PackageIcon>You-Tube-16.png</PackageIcon>
+    <PackageProjectUrl>https://adderly.top</PackageProjectUrl>
+    <ApplicationIcon>img/icon.ico</ApplicationIcon>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <FileVersion>1.0.0.$(BuildNumber)</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Title>WersDL</Title>
+    <Copyright>Werhes</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="img\hand_heart_donate_icon.png" />
+    <None Remove="img\Telegram_2019_Logo.svg.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.2.1" />
+    <PackageReference Include="MicaWPF" Version="6.3.2" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="loc\*.json" />
+    <EmbeddedResource Include="BuildNumber.txt" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Resource Include="img\hand_heart_donate_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Telegram_2019_Logo.svg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\You-Tube-16.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="img\You-Tube-16.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <Target Name="UpdateBuildInfo" BeforeTargets="BeforeBuild">
+    <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\UpdateBuildNumber.ps1&quot;" />
+    <ReadLinesFromFile File="$(MSBuildProjectDirectory)\BuildNumber.txt">
+      <Output TaskParameter="Lines" PropertyName="BuildNumber" />
+    </ReadLinesFromFile>
+  </Target>
+
+  <Target Name="RemoveOnlyLanguageFolders" AfterTargets="Build">
+    <ItemGroup>
+      <LangDirs Include="$(OutputPath)*\" Condition="Exists('%(Identity)') &#xD;&#xA;                           AND '%(Filename)' != 'en' &#xD;&#xA;                           AND '%(Filename)' != 'en-US' &#xD;&#xA;                           AND $([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)', '^[a-z]{2}(-[A-Z]{2})?$'))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(LangDirs)" />
+  </Target>
+
+  <Target Name="RemoveOnlyLanguageFoldersAfterPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <LangDirs Include="$(PublishDir)*\" Condition="Exists('%(Identity)') &#xD;&#xA;                           AND '%(Filename)' != 'en' &#xD;&#xA;                           AND '%(Filename)' != 'en-US' &#xD;&#xA;                           AND $([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)', '^[a-z]{2}(-[A-Z]{2})?$'))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(LangDirs)" />
+  </Target>
+
+</Project>

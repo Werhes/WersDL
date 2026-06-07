@@ -1,0 +1,93 @@
+name: Build WersDL
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - 'readmeIMG/**'
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: 'Build configuration'
+        required: true
+        default: 'Release'
+        type: choice
+        options:
+          - Release
+          - Debug
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  PROJECT_PATH: 'YT-DLP-GUI.csproj'
+  SOLUTION_PATH: 'YT-DLP-GUI.slnx'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET SDK ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore NuGet packages
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+    - name: Build (${{ github.event.inputs.configuration || 'Release' }})
+      run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ github.event.inputs.configuration || 'Release' }} --no-restore -p:Platform="Any CPU"
+
+    - name: Publish (portable)
+      run: dotnet publish ${{ env.PROJECT_PATH }} --configuration ${{ github.event.inputs.configuration || 'Release' }} --runtime win-x64 --self-contained false --output ./publish/portable
+
+    - name: Publish (self-contained)
+      run: dotnet publish ${{ env.PROJECT_PATH }} --configuration ${{ github.event.inputs.configuration || 'Release' }} --runtime win-x64 --self-contained true --output ./publish/self-contained
+
+    - name: Upload portable build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: WersDL-portable-${{ github.run_number }}
+        path: ./publish/portable/**
+        if-no-files-found: error
+
+    - name: Upload self-contained build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: WersDL-self-contained-${{ github.run_number }}
+        path: ./publish/self-contained/**
+        if-no-files-found: error
+
+    - name: Create release ZIP (portable)
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        powershell Compress-Archive -Path ./publish/portable/* -DestinationPath ./WersDL-portable-${{ github.run_number }}.zip
+
+    - name: Create release ZIP (self-contained)
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        powershell Compress-Archive -Path ./publish/self-contained/* -DestinationPath ./WersDL-self-contained-${{ github.run_number }}.zip
+
+    - name: Upload portable ZIP
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: actions/upload-artifact@v4
+      with:
+        name: WersDL-portable-${{ github.run_number }}.zip
+        path: ./WersDL-portable-${{ github.run_number }}.zip
+        if-no-files-found: error
+
+    - name: Upload self-contained ZIP
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: actions/upload-artifact@v4
+      with:
+        name: WersDL-self-contained-${{ github.run_number }}.zip
+        path: ./WersDL-self-contained-${{ github.run_number }}.zip
+        if-no-files-found: error

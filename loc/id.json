@@ -1,0 +1,54 @@
+{
+    "categories": {
+        "loc": {
+            "main": {
+                "status_main": "Siap digunakan.",
+                "status_info": "Memuat informasi video...",
+                "status_preparing": "Bersiap untuk mengunduh...",
+                "status_done": "Selesai! File berhasil disimpan.",
+                "status_fetching": "Memuat: ",
+                "status_downloading": "Mengunduh...",
+                "status_ffmpeg": "Penggabungan / Konversi audio FFmpeg..",
+                "status_canceled": "Unduhan dibatalkan oleh pengguna.",
+                "status_noname": "Nama tidak diketahui",
+                "error": "Kesalahan",
+                "error1": "Gagal memuat data",
+                "error2": "Kesalahan saat membaca data",
+                "error3": "Folder yang ditentukan tidak ada. Unduh video terlebih dahulu atau buat foldernya.",
+                "openfoldertitle": "Pilih folder untuk menyimpan file",
+                "pastefirst": "Silakan tempel tautan YouTube.",
+                "updatedialog": "Pembaruan YT DLP GUI tersedia.\nDisarankan untuk menginstal versi terbaru yang berisi perbaikan dan pembaruan pustaka.",
+                "updatebutton": "Perbarui",
+                "updatecancel": "Tunda"
+            },
+            "gui": {
+                "videolink": "Tautan video:",
+                "savelocation": "Lokasi penyimpanan:",
+                "savemode": "Mode unduhan:",
+                "quality": "Kualitas:",
+                "extension": "Format:",
+                "audio": "Audio",
+                "video": "Video",
+                "options": "Opsi unduhan:",
+                "onlyvideo": "Hanya video (tanpa suara)",
+                "browse": "Telusuri",
+                "open": "Buka",
+                "max": "Maksimal yang tersedia",
+                "button_start": "Mulai unduh",
+                "button_cancel": "Batalkan unduhan",
+                "set": "Pengaturan / Tentang"
+            },
+            "settings": {
+                "label": "Pengaturan",
+                "back": "Kembali",
+                "lang": "Bahasa program",
+                "cred": "Ide dan pengembangan:",
+                "credNik": "Ikon program:",
+                "credthx": "Terima kasih khusus:",
+                "sitebutton": "Situs web resmi",
+                "dlpcredit": "Program ini berbasis yt-dlp",
+                "githubrepo": "Repositori GitHub"
+            }
+        }
+    }
+}

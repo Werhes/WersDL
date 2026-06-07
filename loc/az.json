@@ -1,0 +1,54 @@
+{
+    "categories": {
+        "loc": {
+            "main": {
+                "status_main": "İşə hazırdır.",
+                "status_info": "Video məlumatları yüklənir...",
+                "status_preparing": "Yükləməyə hazırlanır...",
+                "status_done": "Hazırdır! Fayl uğurla yadda saxlanıldı.",
+                "status_fetching": "Yüklənir: ",
+                "status_downloading": "Yüklənir...",
+                "status_ffmpeg": "FFmpeg ilə birləşdirilir / konvertasiya edilir...",
+                "status_canceled": "Yükləmə istifadəçi tərəfindən ləğv edildi.",
+                "status_noname": "Naməlum ad",
+                "error": "Xəta",
+                "error1": "Məlumatlar yüklənə bilmədi",
+                "error2": "Məlumatlar oxunarkən xəta baş verdi",
+                "error3": "Göstərilən qovluq mövcud deyil. Əvvəlcə videonu yükləyin və ya qovluğu yaradın.",
+                "openfoldertitle": "Faylları saxlamaq üçün qovluğu seçin",
+                "pastefirst": "Zəhmət olmasa, YouTube linkini yapışdırın.",
+                "updatedialog": "YT DLP GUI yeniləməsi mövcuddur.\nSəhvlərin düzəldilməsini və kitabxana yeniləmələrini ehtiva edən cari versiyanı quraşdırmaq tövsiyə olunur.",
+                "updatebutton": "Yenilə",
+                "updatecancel": "Təxirə sal"
+            },
+            "gui": {
+                "videolink": "Video linki:",
+                "savelocation": "Saxlanılacaq yer:",
+                "savemode": "Yükləmə rejimi:",
+                "quality": "Keyfiyyət:",
+                "extension": "Format:",
+                "audio": "Audio",
+                "video": "Video",
+                "options": "Yükləmə parametrləri:",
+                "onlyvideo": "Yalnız video (səssiz)",
+                "browse": "Göz at",
+                "open": "Aç",
+                "max": "Maksimum əlçatan",
+                "button_start": "Yükləməyə başla",
+                "button_cancel": "Yükləməni ləğv et",
+                "set": "Parametrlər / Proqram haqqında"
+            },
+            "settings": {
+                "label": "Parametrlər",
+                "back": "Geri",
+                "lang": "Proqramın dili",
+                "cred": "İdeya və işlənmə:",
+                "credNik": "Proqram ikonu:",
+                "credthx": "Xüsusi təşəkkür:",
+                "sitebutton": "Rəsmi sayt",
+                "dlpcredit": "Proqram yt-dlp əsasında qurulub",
+                "githubrepo": "GitHub repozitoriyası"
+            }
+        }
+    }
+}

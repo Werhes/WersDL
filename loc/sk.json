@@ -1,0 +1,54 @@
+{
+    "categories": {
+        "loc": {
+            "main": {
+                "status_main": "Pripravené na prácu.",
+                "status_info": "Načítavanie informácií o videu...",
+                "status_preparing": "Príprava na sťahovanie...",
+                "status_done": "Hotovo! Súbor bol úspešne uložený.",
+                "status_fetching": "Načítavanie: ",
+                "status_downloading": "Sťahovanie...",
+                "status_ffmpeg": "Zlučovanie / Konverzia zvuku FFmpeg...",
+                "status_canceled": "Sťahovanie zrušené používateľom.",
+                "status_noname": "Neznámy názov",
+                "error": "Chyba",
+                "error1": "Nepodarilo sa načítať údaje",
+                "error2": "Chyba pri čítaní údajov",
+                "error3": "Zadaný priečinok neexistuje. Najprv stiahnite video alebo vytvorte priečinok.",
+                "openfoldertitle": "Vyberte priečinok na uloženie súborov",
+                "pastefirst": "Prosím, vložte odkaz na YouTube.",
+                "updatedialog": "Je k dispozícii aktualizácia WersDL.\nOdporúča sa nainštalovať aktuálnu verziu, ktorá obsahuje opravy a aktualizácie knižníc.",
+                "updatebutton": "Aktualizovať",
+                "updatecancel": "Odložiť"
+            },
+            "gui": {
+                "videolink": "Odkaz na video:",
+                "savelocation": "Umiestnenie uloženia:",
+                "savemode": "Režim sťahovania:",
+                "quality": "Kvalita:",
+                "extension": "Formát:",
+                "audio": "Zvuk",
+                "video": "Video",
+                "options": "Nastavenia sťahovania:",
+                "onlyvideo": "Iba video (bez zvuku)",
+                "browse": "Prehľadávať",
+                "open": "Otvoriť",
+                "max": "Maximálne dostupné",
+                "button_start": "Spustiť sťahovanie",
+                "button_cancel": "Zrušiť sťahovanie",
+                "set": "Nastavenia / O programe"
+            },
+            "settings": {
+                "label": "Nastavenia",
+                "back": "Späť",
+                "lang": "Jazyk programu",
+                "cred": "Nápad a vývoj:",
+                "credNik": "Ikona programu:",
+                "credthx": "Osobitné poďakovanie:",
+                "sitebutton": "Oficiálna stránka",
+                "dlpcredit": "Program je založený na yt-dlp",
+                "githubrepo": "Repozitár na GitHub"
+            }
+        }
+    }
+}

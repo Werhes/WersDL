@@ -1,0 +1,52 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+*.userprefs
+*.csproj.user
+*.dbmdl
+*.jfm
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/[Pp]ackages/repositories.config
+
+## Visual Studio
+.vs/
+*.sln.ide/
+*.VC.db
+*.VC.opendb
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## Publish output
+publish/
+*.zip
+
+## OS files
+Thumbs.db
+*.DS_Store
+Desktop.ini
+
+## Build scripts
+build/

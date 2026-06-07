@@ -1,0 +1,54 @@
+{
+    "categories": {
+        "loc": {
+            "main": {
+                "status_main": "Gotowy do pracy.",
+                "status_info": "Pobieranie informacji o wideo...",
+                "status_preparing": "Przygotowywanie do pobierania...",
+                "status_done": "Gotowe! Plik został pomyślnie zapisany.",
+                "status_fetching": "Pobieranie: ",
+                "status_downloading": "Pobieranie...",
+                "status_ffmpeg": "Łączenie / Konwersja audio FFmpeg...",
+                "status_canceled": "Pobieranie anulowane przez użytkownika.",
+                "status_noname": "Nieznana nazwa",
+                "error": "Błąd",
+                "error1": "Nie udało się pobrać danych",
+                "error2": "Błąd podczas odczytu danych",
+                "error3": "Wskazany folder nie istnieje. Najpierw pobierz wideo lub utwórz folder.",
+                "openfoldertitle": "Wybierz folder do zapisu plików",
+                "pastefirst": "Proszę wkleić link do YouTube.",
+                "updatedialog": "Dostępna jest aktualizacja YT DLP GUI.\nZaleca się zainstalowanie aktualnej wersji, która zawiera poprawki i aktualizacje bibliotek.",
+                "updatebutton": "Aktualizuj",
+                "updatecancel": "Później"
+            },
+            "gui": {
+                "videolink": "Link do wideo:",
+                "savelocation": "Lokalizacja zapisu:",
+                "savemode": "Tryb pobierania:",
+                "quality": "Jakość:",
+                "extension": "Format:",
+                "audio": "Audio",
+                "video": "Wideo",
+                "options": "Opcje pobierania:",
+                "onlyvideo": "Tylko obraz (bez dźwięku)",
+                "browse": "Przeglądaj",
+                "open": "Otwórz",
+                "max": "Maksymalna dostępna",
+                "button_start": "Rozpocznij pobieranie",
+                "button_cancel": "Anuluj pobieranie",
+                "set": "Ustawienia / O programie"
+            },
+            "settings": {
+                "label": "Ustawienia",
+                "back": "Wstecz",
+                "lang": "Język programu",
+                "cred": "Pomysł i rozwój:",
+                "credNik": "Ikona programu:",
+                "credthx": "Specjalne podziękowania:",
+                "sitebutton": "Oficjalna strona",
+                "dlpcredit": "Program oparty na yt-dlp",
+                "githubrepo": "Repozytorium na GitHub"
+            }
+        }
+    }
+}
