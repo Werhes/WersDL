@@ -1,6 +1,4 @@
-# YouTube Downloader GUI
-
-![Main Preview](readmeIMG/en.png)
+# YouTube Downloader 
 
 **The Best YouTube Video Downloader.**
 A beautiful and user-friendly GUI implementation of yt-dlp, featuring a sleek preview of the video being downloaded. With its clean design and no unnecessary features, you can download your favorite videos quickly and efficiently - without wasting time. Translations into the world's most popular languages ​​ensure accessibility for the widest possible user base.
@@ -19,7 +17,6 @@ A beautiful and user-friendly GUI implementation of yt-dlp, featuring a sleek pr
 
 Красивая и удобная реализация графического интерфейса (GUI) для yt-dlp с элегантным предпросмотром загружаемого видео. Благодаря лаконичному дизайну и отсутствию лишних функций вы сможете скачивать любимые видео быстро и эффективно, не теряя времени. Перевод на самые популярные языки мира обеспечивает доступность для максимально широкого круга пользователей.
 
-![Russian Preview](readmeIMG/ru.png)
 
 ### Технические подробности
 * Основан на **yt-dlp**: [github.com/yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp)
