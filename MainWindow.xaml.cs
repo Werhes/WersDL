@@ -634,20 +634,54 @@ namespace YT_DLP_GUI
 
                 currentProcess = new Process { StartInfo = startInfo };
                 currentProcess.OutputDataReceived += Process_OutputDataReceived;
+                currentProcess.ErrorDataReceived += Process_ErrorDataReceived;
 
                 try
                 {
                     currentProcess.Start();
                     currentProcess.BeginOutputReadLine();
+                    currentProcess.BeginErrorReadLine();
                     currentProcess.WaitForExit();
+
+                    if (currentProcess.ExitCode != 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            StatusTextBlock.Text = locMain.ContainsKey("error2") ? locMain["error2"] : "Ошибка при скачивании";
+                            OperationProgressBar.IsIndeterminate = false;
+                        });
+                    }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        StatusTextBlock.Text = $"Ошибка: {ex.Message}";
+                        OperationProgressBar.IsIndeterminate = false;
+                    });
+                }
                 finally
                 {
                     currentProcess?.Dispose();
                     currentProcess = null;
                 }
             });
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    // Show yt-dlp errors in status
+                    if (e.Data.Contains("ERROR") || e.Data.Contains("error"))
+                    {
+                        StatusTextBlock.Text = $"Ошибка: {e.Data}";
+                        OperationProgressBar.IsIndeterminate = false;
+                    }
+                });
+            }
         }
 
         private void ResetUiState()
