@@ -9,8 +9,9 @@
         mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark"
         Title="WersDL" Height="650" Width="500"
         d:Background="#202020"
-        SystemBackdropType="Tabbed" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Topmost="False">
+        SystemBackdropType="Acrylic" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Topmost="False"
+        Background="Transparent">
 
     <WindowChrome.WindowChrome>
         <WindowChrome ResizeBorderThickness="0"
@@ -61,15 +62,30 @@
                     </Grid>
                 </StackPanel>
 
-                <Grid x:Name="PreviewPanel" Grid.Row="2" Margin="0,0,0,15" Visibility="Collapsed" Height="70">
+                <Grid x:Name="PreviewPanel" Grid.Row="2" Margin="0,0,0,15" Visibility="Collapsed" Height="100">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="125"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Border CornerRadius="6" ClipToBounds="True" Background="#22FFFFFF" Grid.Column="0">
                         <Image x:Name="PreviewImage" Stretch="UniformToFill"/>
                     </Border>
-                    <TextBlock x:Name="PreviewTitle" Grid.Column="1" Text="Загрузка информации..." TextWrapping="Wrap" Margin="10,5,0,0" FontSize="13" FontWeight="SemiBold" Opacity="0.9" MaxHeight="60" TextTrimming="CharacterEllipsis"/>
+                    <Grid Grid.Column="1" Margin="10,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="PreviewTitle" Grid.Row="0" Text="Загрузка информации..." TextWrapping="Wrap" FontSize="13" FontWeight="SemiBold" Opacity="0.9" MaxHeight="60" TextTrimming="CharacterEllipsis"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
+                            <controls:Button x:Name="DownloadPreviewButton" Padding="8,2" FontSize="11" Visibility="Collapsed" Click="DownloadPreviewButton_Click" Background="#33FFFFFF" ToolTip="Сохранить превью">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="Save" FontSize="12"/>
+                                    <TextBlock Text=" Сохранить превью" Margin="3,0,0,0"/>
+                                </StackPanel>
+                            </controls:Button>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
                 <StackPanel Grid.Row="3" Margin="0,0,0,15">

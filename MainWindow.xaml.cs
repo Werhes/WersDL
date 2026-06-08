@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Microsoft.Win32;
 using NewtonsoftJson = Newtonsoft.Json;
 
 namespace YT_DLP_GUI
@@ -27,6 +28,8 @@ namespace YT_DLP_GUI
         private Process currentProcess = null;
         private DispatcherTimer clipboardTimer;
         private int currentMaxHeight = 2160;
+        private string currentThumbUrl = "";
+        private string currentVideoTitle = "";
         private Dictionary<string, string> locMain = new Dictionary<string, string>();
         private Dictionary<string, string> locGui = new Dictionary<string, string>();
 
@@ -233,6 +236,9 @@ namespace YT_DLP_GUI
                 PreviewPanel.Visibility = Visibility.Visible;
                 PreviewTitle.Text = locMain.ContainsKey("status_info") ? locMain["status_info"] : "Загрузка информации о видео...";
                 PreviewImage.Source = null;
+                DownloadPreviewButton.Visibility = Visibility.Collapsed;
+                currentThumbUrl = "";
+                currentVideoTitle = "";
 
                 currentMaxHeight = 2160;
                 UpdateComboBoxItems();
@@ -293,8 +299,14 @@ namespace YT_DLP_GUI
                                     }
                                 }
 
+                                string capturedTitle = title;
+                                string capturedThumbUrl = thumbUrl;
+
                                 Dispatcher.Invoke(() =>
                                 {
+                                    currentVideoTitle = capturedTitle;
+                                    currentThumbUrl = capturedThumbUrl;
+
                                     PreviewTitle.Inlines.Clear();
                                     PreviewTitle.Inlines.Add(new System.Windows.Documents.Run(title));
 
@@ -313,17 +325,13 @@ namespace YT_DLP_GUI
                                         UpdateComboBoxItems();
                                     }
 
-                                    if (!string.IsNullOrEmpty(thumbUrl))
+                                    // Show/hide download preview button based on thumbnail availability
+                                    DownloadPreviewButton.Visibility = !string.IsNullOrEmpty(capturedThumbUrl) ? Visibility.Visible : Visibility.Collapsed;
+
+                                    // Load thumbnail via HttpClient to avoid WPF web request issues
+                                    if (!string.IsNullOrEmpty(capturedThumbUrl))
                                     {
-                                        try
-                                        {
-                                            BitmapImage bitmap = new BitmapImage();
-                                            bitmap.BeginInit();
-                                            bitmap.UriSource = new Uri(thumbUrl, UriKind.Absolute);
-                                            bitmap.EndInit();
-                                            PreviewImage.Source = bitmap;
-                                        }
-                                        catch { }
+                                        _ = LoadThumbnailAsync(capturedThumbUrl);
                                     }
                                 });
                             }
@@ -339,6 +347,93 @@ namespace YT_DLP_GUI
                     Dispatcher.Invoke(() => PreviewTitle.Text = locMain.ContainsKey("error2") ? locMain["error2"] : "Ошибка при чтении данных");
                 }
             });
+        }
+
+        private async Task LoadThumbnailAsync(string thumbUrl)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("WersDL/1.0");
+                    byte[] imageBytes = await client.GetByteArrayAsync(thumbUrl);
+
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        try
+                        {
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.StreamSource = new MemoryStream(imageBytes);
+                            bitmap.EndInit();
+                            bitmap.Freeze();
+                            PreviewImage.Source = bitmap;
+                        }
+                        catch { }
+                    });
+                }
+            }
+            catch { }
+        }
+
+        private async void DownloadPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(currentThumbUrl)) return;
+
+            string saveDir = SavePathTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(saveDir))
+            {
+                saveDir = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+
+            if (!Directory.Exists(saveDir))
+            {
+                try { Directory.CreateDirectory(saveDir); }
+                catch { return; }
+            }
+
+            // Sanitize filename
+            string safeTitle = currentVideoTitle;
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                safeTitle = safeTitle.Replace(c, '_');
+            }
+            if (string.IsNullOrWhiteSpace(safeTitle)) safeTitle = "thumbnail";
+
+            string filePath = Path.Combine(saveDir, $"{safeTitle}.jpg");
+
+            // If file exists, add a number suffix
+            int counter = 1;
+            while (File.Exists(filePath))
+            {
+                filePath = Path.Combine(saveDir, $"{safeTitle}_{counter}.jpg");
+                counter++;
+            }
+
+            try
+            {
+                StatusTextBlock.Text = locMain.ContainsKey("status_preparing") ? locMain["status_preparing"] : "Скачивание превью...";
+                OperationProgressBar.IsIndeterminate = true;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("WersDL/1.0");
+                    byte[] imageBytes = await client.GetByteArrayAsync(currentThumbUrl);
+                    await File.WriteAllBytesAsync(filePath, imageBytes);
+                }
+
+                OperationProgressBar.IsIndeterminate = false;
+                OperationProgressBar.Value = 100;
+                StatusTextBlock.Text = locMain.ContainsKey("status_done") ? locMain["status_done"] : "Превью сохранено!";
+            }
+            catch (Exception ex)
+            {
+                OperationProgressBar.IsIndeterminate = false;
+                string errTitle = locMain.ContainsKey("error") ? locMain["error"] : "Ошибка";
+                MessageBox.Show($"Не удалось сохранить превью: {ex.Message}", errTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                StatusTextBlock.Text = locMain.ContainsKey("status_main") ? locMain["status_main"] : "Готов к работе.";
+            }
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
