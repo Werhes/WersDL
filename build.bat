@@ -17,7 +17,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 :: Check .NET version
-for /f "tokens=2 delims= " %%a in ('dotnet --version') do set DOTNET_VER=%%a
+for /f "tokens=*" %%a in ('dotnet --version 2^>nul') do set DOTNET_VER=%%a
 if "%DOTNET_VER%"=="" set DOTNET_VER=unknown
 echo [INFO] .NET SDK version: %DOTNET_VER%
 
