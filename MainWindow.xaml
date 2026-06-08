@@ -9,9 +9,8 @@
         mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark"
         Title="WersDL" Height="650" Width="500"
         d:Background="#202020"
-        SystemBackdropType="Acrylic" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Topmost="False"
-        Background="Transparent">
+        SystemBackdropType="Tabbed" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Topmost="False">
 
     <WindowChrome.WindowChrome>
         <WindowChrome ResizeBorderThickness="0"
