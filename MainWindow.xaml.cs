@@ -356,22 +356,23 @@ namespace YT_DLP_GUI
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.UserAgent.ParseAdd("WersDL/1.0");
+                    client.Timeout = TimeSpan.FromSeconds(10);
                     byte[] imageBytes = await client.GetByteArrayAsync(thumbUrl);
 
-                    await Dispatcher.InvokeAsync(() =>
+                    using (var ms = new MemoryStream(imageBytes))
                     {
-                        try
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.StreamSource = ms;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+
+                        Dispatcher.Invoke(() =>
                         {
-                            BitmapImage bitmap = new BitmapImage();
-                            bitmap.BeginInit();
-                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                            bitmap.StreamSource = new MemoryStream(imageBytes);
-                            bitmap.EndInit();
-                            bitmap.Freeze();
                             PreviewImage.Source = bitmap;
-                        }
-                        catch { }
-                    });
+                        });
+                    }
                 }
             }
             catch { }

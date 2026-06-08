@@ -79,7 +79,7 @@
                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
                             <controls:Button x:Name="DownloadPreviewButton" Padding="8,2" FontSize="11" Visibility="Collapsed" Click="DownloadPreviewButton_Click" Background="#33FFFFFF" ToolTip="Сохранить превью">
                                 <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon Symbol="Save"/>
+                                    <ui:SymbolIcon Symbol="Save" Width="14" Height="14"/>
                                     <TextBlock Text=" Сохранить превью" Margin="3,0,0,0"/>
                                 </StackPanel>
                             </controls:Button>
