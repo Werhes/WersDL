@@ -556,34 +556,36 @@ namespace YT_DLP_GUI
             StatusTextBlock.Text = locMain.ContainsKey("status_preparing") ? locMain["status_preparing"] : "Подготовка к скачиванию...";
 
             string dlFormat = "";
-            string mergeArg = "";
+            string extraArgs = "";
             var selectedSetting = (ComboBoxItem)SettingsComboBox.SelectedItem;
             string tag = selectedSetting.Tag.ToString();
             bool isVideoOnly = VideoOnlyCheckBox.IsChecked == true;
-            string audioPart = isVideoOnly ? "" : "+bestaudio[ext=m4a]";
-            string bestFallback = isVideoOnly ? "/bestvideo" : "/best[ext=mp4]";
 
             if (RadioVideo.IsChecked == true)
             {
+                // Always prefer best MP4-compatible format.
+                // yt-dlp can download single mp4 streams without ffmpeg.
+                // --merge-output-format mp4 ensures the final file is .mp4 even if ffmpeg is needed.
                 if (tag == "max")
                 {
-                    dlFormat = $"bestvideo{audioPart}/best";
-                    mergeArg = isVideoOnly ? "" : "--merge-output-format mp4";
+                    dlFormat = "bestvideo+bestaudio/best";
                 }
                 else if (tag == "4k")
                 {
-                    dlFormat = $"bestvideo[height<=2160]{audioPart}{bestFallback}";
-                    mergeArg = isVideoOnly ? "" : "--merge-output-format mp4";
+                    dlFormat = "bestvideo[height<=2160]+bestaudio/best[height<=2160]";
                 }
                 else if (tag == "1080")
                 {
-                    dlFormat = $"bestvideo[ext=mp4][height<=1080]{audioPart}{bestFallback}";
-                    mergeArg = isVideoOnly ? "" : "--merge-output-format mp4";
+                    dlFormat = "bestvideo[height<=1080]+bestaudio/best[height<=1080]";
                 }
                 else if (tag == "720")
                 {
-                    dlFormat = $"bestvideo[ext=mp4][height<=720]{audioPart}{bestFallback}";
-                    mergeArg = isVideoOnly ? "" : "--merge-output-format mp4";
+                    dlFormat = "bestvideo[height<=720]+bestaudio/best[height<=720]";
+                }
+
+                if (!isVideoOnly)
+                {
+                    extraArgs = "--merge-output-format mp4";
                 }
             }
             else
@@ -591,17 +593,17 @@ namespace YT_DLP_GUI
                 if (tag == "mp3")
                 {
                     dlFormat = "bestaudio";
-                    mergeArg = "-x --audio-format mp3";
+                    extraArgs = "-x --audio-format mp3";
                 }
                 else if (tag == "m4a")
                 {
                     dlFormat = "bestaudio[ext=m4a]";
-                    mergeArg = "-x";
+                    extraArgs = "-x";
                 }
             }
 
             string outputPath = Path.Combine(saveDir, "%(title)s.%(ext)s");
-            string arguments = $"--no-playlist -f \"{dlFormat}\" {mergeArg} -o \"{outputPath}\" \"{url}\"";
+            string arguments = $"--no-playlist -f \"{dlFormat}\" {extraArgs} -o \"{outputPath}\" \"{url}\"";
 
             await RunYtDlpAsync(arguments);
 

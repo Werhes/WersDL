@@ -40,7 +40,7 @@ if not exist "yt-dlp.exe" (
 
 if not exist "ffmpeg.exe" (
     echo [INFO] Downloading ffmpeg.exe...
-    powershell -Command "$zip = '$env:TEMP\ffmpeg.zip'; Invoke-WebRequest -Uri 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip' -OutFile $zip; Expand-Archive -Path $zip -DestinationPath $env:TEMP -Force; $exe = Get-ChildItem -Path $env:TEMP -Recurse -Filter 'ffmpeg.exe' | Select-Object -First 1; if ($exe) { Copy-Item -Path $exe.FullName -Destination 'ffmpeg.exe' -Force; Write-Host '[OK] ffmpeg.exe downloaded.' } else { Write-Host '[WARN] Could not extract ffmpeg.exe' }; Remove-Item -Path $zip -Force -ErrorAction SilentlyContinue"
+    powershell -Command "$tmp = [System.IO.Path]::GetTempPath(); $zip = $tmp + 'ffmpeg.zip'; Invoke-WebRequest -Uri 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip' -OutFile $zip; Expand-Archive -Path $zip -DestinationPath $tmp -Force; $exe = Get-ChildItem -Path $tmp -Recurse -Filter 'ffmpeg.exe' | Select-Object -First 1; if ($exe) { Copy-Item -Path $exe.FullName -Destination 'ffmpeg.exe' -Force; Write-Host '[OK] ffmpeg.exe downloaded.' } else { Write-Host '[WARN] Could not extract ffmpeg.exe' }; Remove-Item -Path $zip -Force -ErrorAction SilentlyContinue"
     if exist "ffmpeg.exe" ( echo [OK] ffmpeg.exe downloaded. ) else ( echo [WARN] ffmpeg.exe not found. Download manually from https://ffmpeg.org/ )
 ) else (
     echo [OK] ffmpeg.exe found.
