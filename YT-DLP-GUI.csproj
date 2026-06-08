@@ -37,6 +37,14 @@
     <EmbeddedResource Include="BuildNumber.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="yt-dlp.exe" Condition="Exists('yt-dlp.exe')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ffmpeg.exe" Condition="Exists('ffmpeg.exe')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="img\hand_heart_donate_icon.png">
